@@ -10,6 +10,20 @@ else:
 #  This awfulness is all in aid of grabbing the version number out
 #  of the source code, rather than having to repeat it here.  Basically,
 #  we parse out all lines starting with "__version__" and execute them.
+
+#  Additional note: we actually parse all the lines up to and including
+#  the line starting with "__version__" and thus pick up the doc string
+#  into info["__doc__"]. This means that various import statements also
+#  get 'exec'ed and this will silently fail if the 'future' module is 
+#  not installed. So check for that here first:
+
+try:
+    import future
+except ImportError:
+    print('Esky requires the "future" module installed\n'
+          'e.g. "pip install future" - see python-future.org \n')
+    sys.exit()
+    
 try:
     next = next
 except NameError:
